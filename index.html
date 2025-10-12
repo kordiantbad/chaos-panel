@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chaos Control Panel</title>
+  <style>
+    body { background: #111; color: #0ff; font-family: monospace; text-align: center; padding: 40px; }
+    button { background: #222; color: #0ff; border: 1px solid #0ff; padding: 12px 24px; margin: 10px; font-size: 16px; cursor: pointer; border-radius: 6px; }
+    button:hover { background: #0ff; color: #000; }
+  </style>
+</head>
+<body>
+  <h1>🧨 Chaos Control</h1>
+  <button onclick="sendChaos('videoBomb')">💣 Video Bomb</button>
+  <button onclick="sendChaos('changeBG')">🌈 Change Background</button>
+  <button onclick="sendChaos('shake')">💢 Earthquake Mode</button>
+
+  <script>
+    async function sendChaos(action) {
+      await fetch('https://chaos-backend-1.onrender.com/trigger', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action })
+      });
+    }
+  </script>
+</body>
+</html>
