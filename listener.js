@@ -1,11 +1,5 @@
-if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') === 'true') {
-  window.__chaosInjected = true;
 
   (function () {
-    const gui = document.createElement('div');
-    gui.textContent = '👀 Chaos Listener Active';
-    gui.style = 'position:fixed;top:10px;right:10px;background:#000;color:#0ff;padding:10px;border:1px solid #0ff;border-radius:8px;z-index:999999;font-family:monospace;';
-    document.body.appendChild(gui);
 
     const script = document.createElement('script');
     script.src = 'https://js.pusher.com/7.2/pusher.min.js';
