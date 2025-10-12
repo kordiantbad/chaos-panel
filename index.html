@@ -3,18 +3,53 @@
 <head>
   <title>Chaos Control Panel</title>
   <style>
-    body { background: #111; color: #0ff; font-family: monospace; text-align: center; padding: 40px; }
-    button { background: #222; color: #0ff; border: 1px solid #0ff; padding: 12px 24px; margin: 10px; font-size: 16px; cursor: pointer; border-radius: 6px; }
-    button:hover { background: #0ff; color: #000; }
+    body {
+      background: #111;
+      color: #0ff;
+      font-family: monospace;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      background: #222;
+      color: #0ff;
+      border: 1px solid #0ff;
+      padding: 12px 24px;
+      margin: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover {
+      background: #0ff;
+      color: #000;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>🧨 Chaos Control</h1>
-  <button onclick="sendChaos('videoBomb')">💣 Video Bomb</button>
-  <button onclick="sendChaos('changeBG')">🌈 Change Background</button>
-  <button onclick="sendChaos('shake')">💢 Earthquake Mode</button>
+  <h1>🧨 Chaos Control Panel</h1>
+  <div id="controls"></div>
 
   <script>
+    const actions = [
+      'videoBomb','changeBG','shake','invertColors','blurScreen','zoomIn','zoomOut','flipScreen',
+      'hideText','rainbowText','cursorTrail','popupSpam','fakeError','typewriter','confetti',
+      'snowfall','darkMode','lightMode','broadcast','glitch'
+    ];
+
+    const controls = document.getElementById('controls');
+
+    actions.forEach(action => {
+      const btn = document.createElement('button');
+      btn.textContent = `⚡ ${action}`;
+      btn.onclick = () => sendChaos(action);
+      controls.appendChild(btn);
+    });
+
     async function sendChaos(action) {
       await fetch('https://chaos-backend-1.onrender.com/trigger', {
         method: 'POST',
