@@ -13,3 +13,13 @@
   <p>This tab will react to chaos commands in real time.</p>
 </body>
 </html>
+<script>
+  window.addEventListener('message', e => {
+    if (e.data?.type === 'chaos') {
+      const action = e.data.action;
+      if (window.opener) {
+        window.opener.postMessage({ type: 'chaos', action }, '*');
+      }
+    }
+  });
+</script>
