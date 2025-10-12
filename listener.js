@@ -1,6 +1,8 @@
+if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') === 'true') {
+  window.__chaosInjected = true;
 
   (function () {
-
+    
     const script = document.createElement('script');
     script.src = 'https://js.pusher.com/7.2/pusher.min.js';
     script.onload = () => {
