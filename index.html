@@ -95,14 +95,14 @@
         const data = await res.json();
         const log = document.getElementById('activityLog');
         log.innerHTML = '';
-        data.slice().reverse().forEach(entry => {
-          const time = new Date(entry.timestamp).toLocaleTimeString();
-          const title = entry.title || 'Unknown Tab';
-          const nickname = entry.nickname || 'Anonymous';
-          const li = document.createElement('li');
-          li.textContent = `Activated at ${time} — Tab: "${title}" — User: ${nickname}`;
-          log.appendChild(li);
-        });
+data.slice(-5).reverse().forEach(entry => {
+  const time = new Date(entry.timestamp).toLocaleTimeString();
+  const title = entry.title || 'Unknown Tab';
+  const nickname = entry.nickname || 'Anonymous';
+  const li = document.createElement('li');
+  li.textContent = `Activated at ${time} — Tab: "${title}" — User: ${nickname}`;
+  log.appendChild(li);
+});
       } catch (err) {
         console.error('Failed to fetch activity:', err);
       }
