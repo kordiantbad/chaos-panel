@@ -12,6 +12,241 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
       const activeEffects = new Set();
 
       const activate = {
+        activate.bounceScreen = () => {
+  document.body.style.animation = 'bounce 0.5s infinite';
+  const style = document.createElement('style');
+  style.id = '__chaos_bounce';
+  style.textContent = `@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+  }
+  body { animation: bounce 0.5s infinite; }`;
+  document.head.appendChild(style);
+};
+
+activate.spinText = () => {
+  document.querySelectorAll('*').forEach(e => {
+    e.style.animation = 'spinText 2s infinite linear';
+  });
+  const style = document.createElement('style');
+  style.id = '__chaos_spinText';
+  style.textContent = `@keyframes spinText {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.flicker = () => {
+  const style = document.createElement('style');
+  style.id = '__chaos_flicker';
+  style.textContent = `* {
+    animation: flicker 0.2s infinite;
+  }
+  @keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.rainbowBG = () => {
+  const style = document.createElement('style');
+  style.id = '__chaos_rainbowBG';
+  style.textContent = `body {
+    animation: rainbowBG 5s infinite;
+  }
+  @keyframes rainbowBG {
+    0% { background: red; }
+    20% { background: orange; }
+    40% { background: yellow; }
+    60% { background: green; }
+    80% { background: blue; }
+    100% { background: violet; }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.zoomPulse = () => {
+  const style = document.createElement('style');
+  style.id = '__chaos_zoomPulse';
+  style.textContent = `body {
+    animation: zoomPulse 1s infinite;
+  }
+  @keyframes zoomPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.slideText = () => {
+  document.querySelectorAll('*').forEach(e => {
+    e.style.animation = 'slideText 2s infinite';
+  });
+  const style = document.createElement('style');
+  style.id = '__chaos_slideText';
+  style.textContent = `@keyframes slideText {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.fadeInOut = () => {
+  const style = document.createElement('style');
+  style.id = '__chaos_fadeInOut';
+  style.textContent = `body {
+    animation: fadeInOut 2s infinite;
+  }
+  @keyframes fadeInOut {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.confettiRain = () => {
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
+  s.onload = () => {
+    const duration = 3 * 1000;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+      confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  };
+  document.body.appendChild(s);
+};
+
+activate.textExplosion = () => {
+  document.querySelectorAll('*').forEach(e => {
+    e.style.transition = 'transform 0.5s ease';
+    e.style.transform = `translate(${Math.random()*100-50}px, ${Math.random()*100-50}px) rotate(${Math.random()*360}deg)`;
+  });
+};
+
+activate.fontSwap = () => {
+  const fonts = ['Comic Sans MS', 'Courier New', 'Papyrus', 'Impact', 'Times New Roman'];
+  document.querySelectorAll('*').forEach(e => {
+    e.style.fontFamily = fonts[Math.floor(Math.random()*fonts.length)];
+  });
+};
+
+activate.blinkText = () => {
+  const style = document.createElement('style');
+  style.id = '__chaos_blinkText';
+  style.textContent = `* {
+    animation: blinkText 0.5s infinite;
+  }
+  @keyframes blinkText {
+    0% { visibility: visible; }
+    50% { visibility: hidden; }
+    100% { visibility: visible; }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.scrollJump = () => {
+  let interval = setInterval(() => {
+    window.scrollTo(0, Math.random() * document.body.scrollHeight);
+  }, 500);
+  setTimeout(() => clearInterval(interval), 5000);
+};
+
+activate.mouseHide = () => {
+  document.body.style.cursor = 'none';
+};
+
+activate.mouseTrail = () => {
+  document.addEventListener('mousemove', e => {
+    const dot = document.createElement('div');
+    dot.style = `position:fixed;left:${e.pageX}px;top:${e.pageY}px;width:6px;height:6px;background:#ff0;border-radius:50%;z-index:999999;pointer-events:none`;
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 600);
+  });
+};
+
+activate.fontSizeChaos = () => {
+  document.querySelectorAll('*').forEach(e => {
+    e.style.fontSize = `${Math.random()*30 + 10}px`;
+  });
+};
+
+activate.borderFlash = () => {
+  const style = document.createElement('style');
+  style.id = '__chaos_borderFlash';
+  style.textContent = `* {
+    border: 2px solid red;
+    animation: borderFlash 0.3s infinite;
+  }
+  @keyframes borderFlash {
+    0% { border-color: red; }
+    50% { border-color: yellow; }
+    100% { border-color: red; }
+  }`;
+  document.head.appendChild(style);
+};
+
+activate.pageTilt = () => {
+  document.body.style.transform = 'rotate(2deg)';
+};
+
+activate.pageFlip = () => {
+  document.body.style.transform = 'scaleX(-1)';
+};
+
+activate.pageZoom = () => {
+  document.body.style.zoom = '150%';
+};
+
+activate.pageShrink = () => {
+  document.body.style.zoom = '50%';
+};
+
+activate.randomScroll = () => {
+  let interval = setInterval(() => {
+    window.scrollBy(0, Math.random()*100 - 50);
+  }, 300);
+  setTimeout(() => clearInterval(interval), 5000);
+};
+
+activate.textShadowChaos = () => {
+  document.querySelectorAll('*').forEach(e => {
+    e.style.textShadow = '2px 2px 5px red';
+  });
+};
+
+activate.bgFlash = () => {
+  let i = 0;
+  const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00'];
+  const interval = setInterval(() => {
+    document.body.style.background = colors[i++ % colors.length];
+  }, 200);
+  setTimeout(() => clearInterval(interval), 3000);
+};
+
+activate.overlayMessage = () => {
+  const msg = document.createElement('div');
+  msg.textContent = '💥 CHAOS MODE 💥';
+  Object.assign(msg.style, {
+    position: 'fixed', top: '50%', left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: '40px', color: '#ff0',
+    background: '#000', padding: '20px',
+    zIndex: 999999, borderRadius: '10px'
+  });
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 3000);
+};
+
         videoBomb: () => {
           if (document.getElementById('__chaos_video')) return;
           const vid = document.createElement('video');
