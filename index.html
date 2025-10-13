@@ -83,15 +83,92 @@
       color: red;
       margin-top: 10px;
     }
+
+    #chatBox {
+      position: fixed;
+      top: 40px;
+      right: 40px;
+      width: 280px;
+      height: 400px;
+      background: #111;
+      border: 2px solid #444;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    #chatBox h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      text-align: center;
+      color: #fff;
+    }
+
+    #chatMessages {
+      flex: 1;
+      overflow-y: auto;
+      font-size: 13px;
+      padding-right: 4px;
+      margin-bottom: 10px;
+    }
+
+    #chatMessages div {
+      margin-bottom: 6px;
+      padding: 4px 6px;
+      background: #222;
+      border-radius: 6px;
+      color: #ddd;
+    }
+
+    #chatInput {
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background: #000;
+      color: #fff;
+    }
+
+    #chatLogin {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #chatLogin input {
+      margin: 6px;
+      padding: 8px;
+      width: 220px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #111;
+      color: #fff;
+    }
+
+    #chatLogin button {
+      margin-top: 6px;
+    }
+
+    #chatLogout {
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    #chatLogout button {
+      background: #222;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div id="loginScreen">
-    <h2>Login to Chaos Control</h2>
-    <input id="username" placeholder="Username"><br>
-    <input id="password" type="password" placeholder="Password"><br>
-    <input id="security" placeholder="Security Code"><br>
-    <button onclick="validateLogin()">Login</button>
+    <h2>Enter Gmail to Access Chaos Control</h2>
+    <input id="gmailInput" placeholder="yourname@gmail.com"><br>
+    <button onclick="validateGmail()">Login</button>
     <p id="loginError"></p>
   </div>
 
@@ -100,6 +177,19 @@
 
   <h2 style="text-align:center;margin-top:60px;">Live Chaos Activity</h2>
   <ul id="activityLog"></ul>
+
+  <div id="chatBox">
+    <h3>Chaos Chat</h3>
+    <div id="chatMessages"></div>
+    <input id="chatInput" placeholder="Type a message..." onkeydown="handleChatKey(event)">
+    <div id="chatLogin">
+      <input id="chatGmail" placeholder="Enter Gmail for chat">
+      <button onclick="chatSignIn()">Sign In</button>
+    </div>
+    <div id="chatLogout" style="display:none;">
+      <button onclick="chatSignOut()">Sign Out</button>
+    </div>
+  </div>
 
   <script>
     const actions = [
@@ -144,21 +234,25 @@
       }
     }
 
-    function validateLogin() {
-      const u = document.getElementById('username').value.trim();
-      const p = document.getElementById('password').value.trim();
-      const s = document.getElementById('security').value.trim();
-      if (u === 'miggerbigger123' && p === 'giGGa1qaz' && s === 'fc4m') {
-        const now = new Date();
-        const stockholmOffset = 60; // CET offset in minutes
-        const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
-        const todayKey = stockholmTime.toISOString().split('T')[0]; // YYYY-MM-DD
-        localStorage.setItem('chaosLoginDate', todayKey);
-        showPanel();
-      } else {
-        document.getElementById('loginError').textContent = 'Invalid credentials.';
-      }
-    }
+    function validateGmail() {
+  const email = document.getElementById('gmailInput').value.trim();
+  if (!email.match(/@(gmail\.com|edu\.kunskapsskolan\.se)$/)) {
+    document.getElementById('loginError').textContent = 'Please enter a valid Gmail or Kunskapsskolan email.';
+    return;
+  }
+
+  const nickname = email.split('@')[0];
+  const now = new Date();
+  const stockholmOffset = 60;
+  const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
+  const todayKey = stockholmTime.toISOString().split('T')[0];
+
+  localStorage.setItem('chaosLoginDate', todayKey);
+  localStorage.setItem('chaosUsername', nickname);
+  localStorage.setItem('chaosEmail', email);
+
+  showPanel();
+}
 
     function showPanel() {
       document.getElementById('loginScreen').style.display = 'none';
@@ -171,13 +265,72 @@
 
     (function checkLoginStatus() {
       const now = new Date();
-      const stockholmOffset = 60; // CET offset in minutes
+      const stockholmOffset = 60;
       const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
-      const todayKey = stockholmTime.toISOString().split('T')[0]; // YYYY-MM-DD
+      const todayKey = stockholmTime.toISOString().split('T')[0];
       const lastLogin = localStorage.getItem('chaosLoginDate');
       if (lastLogin === todayKey) {
         showPanel();
       }
+    })();
+
+    function loadChat() {
+      const messages = JSON.parse(localStorage.getItem('chaosChat') || '[]');
+      const container = document.getElementById('chatMessages');
+      container.innerHTML =      container.innerHTML = '';
+      messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.textContent = msg;
+        container.appendChild(div);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function handleChatKey(e) {
+      if (e.key === 'Enter') {
+        const input = document.getElementById('chatInput');
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        const nickname = localStorage.getItem('chatNickname') || 'Anonymous';
+        const messages = JSON.parse(localStorage.getItem('chaosChat') || '[]');
+        messages.push(`${nickname}: ${msg}`);
+        localStorage.setItem('chaosChat', JSON.stringify(messages));
+        input.value = '';
+        loadChat();
+      }
+    }
+
+    function chatSignIn() {
+  const email = document.getElementById('chatGmail').value.trim();
+  if (!email.match(/@(gmail\.com|edu\.kunskapsskolan\.se)$/)) {
+    alert('Please enter a valid Gmail or Kunskapsskolan email.');
+    return;
+  }
+
+  const nickname = email.split('@')[0];
+  localStorage.setItem('chatNickname', nickname);
+  localStorage.setItem('chatEmail', email);
+  document.getElementById('chatLogin').style.display = 'none';
+  document.getElementById('chatLogout').style.display = 'block';
+  loadChat();
+}
+
+    function chatSignOut() {
+      localStorage.removeItem('chatNickname');
+      localStorage.removeItem('chatEmail');
+      document.getElementById('chatLogin').style.display = 'block';
+      document.getElementById('chatLogout').style.display = 'none';
+      loadChat();
+    }
+
+    (function checkChatLogin() {
+      const nickname = localStorage.getItem('chatNickname');
+      if (nickname) {
+        document.getElementById('chatLogin').style.display = 'none';
+        document.getElementById('chatLogout').style.display = 'block';
+      }
+      loadChat();
     })();
   </script>
 </body>
