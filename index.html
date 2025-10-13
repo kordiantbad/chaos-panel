@@ -17,6 +17,7 @@
       text-align: center;
       color: #ffffff;
       letter-spacing: 1px;
+      display: none;
     }
 
     #controls {
@@ -25,6 +26,7 @@
       gap: 16px;
       max-width: 800px;
       margin: 0 auto 40px;
+      display: none;
     }
 
     button {
@@ -50,15 +52,49 @@
       font-size: 14px;
       list-style: none;
       padding: 0;
+      display: none;
     }
 
     #activityLog li {
       padding: 6px 0;
       border-bottom: 1px solid #333;
     }
+
+    #loginScreen {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    #loginScreen input {
+      margin: 6px;
+      padding: 8px;
+      width: 200px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #111;
+      color: #fff;
+    }
+
+    #loginScreen button {
+      margin-top: 10px;
+    }
+
+    #loginError {
+      color: red;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
+  <div id="loginScreen">
+    <h2>Login to Chaos Control</h2>
+    <input id="username" placeholder="Username"><br>
+    <input id="password" type="password" placeholder="Password"><br>
+    <input id="security" placeholder="Security Code"><br>
+    <button onclick="validateLogin()">Login</button>
+    <p id="loginError"></p>
+  </div>
+
   <h1>Chaos Control Panel</h1>
   <div id="controls"></div>
 
@@ -95,21 +131,34 @@
         const data = await res.json();
         const log = document.getElementById('activityLog');
         log.innerHTML = '';
-data.slice(-5).reverse().forEach(entry => {
-  const time = new Date(entry.timestamp).toLocaleTimeString();
-  const title = entry.title || 'Unknown Tab';
-  const nickname = entry.nickname || 'Anonymous';
-  const li = document.createElement('li');
-  li.textContent = `Activated at ${time} — Tab: "${title}" — User: ${nickname}`;
-  log.appendChild(li);
-});
+        data.slice(-5).reverse().forEach(entry => {
+          const time = new Date(entry.timestamp).toLocaleTimeString();
+          const title = entry.title || 'Unknown Tab';
+          const nickname = entry.nickname || 'Anonymous';
+          const li = document.createElement('li');
+          li.textContent = `Activated at ${time} — Tab: "${title}" — User: ${nickname}`;
+          log.appendChild(li);
+        });
       } catch (err) {
         console.error('Failed to fetch activity:', err);
       }
     }
 
-    fetchActivity();
-    setInterval(fetchActivity, 5000); // refresh every 5 seconds
+    function validateLogin() {
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      const s = document.getElementById('security').value.trim();
+      if (u === 'miggerbigger123' && p === 'giGGa1qaz' && s === 'fc4m') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('controls').style.display = 'grid';
+        document.getElementById('activityLog').style.display = 'block';
+        document.querySelector('h1').style.display = 'block';
+        fetchActivity();
+        setInterval(fetchActivity, 5000);
+      } else {
+        document.getElementById('loginError').textContent = 'Invalid credentials.';
+      }
+    }
   </script>
 </body>
 </html>
