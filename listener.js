@@ -29,7 +29,7 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
         },
         flood: () => {
   const url = 'blob:https://479669822-atari-embeds.googleusercontent.com/578c5cd4-6b39-4a93-8bca-fa0bae9b5fbc';
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 5; i++) {
     window.open(url, '_blank');
   }
 },
