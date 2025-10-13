@@ -103,7 +103,7 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           if (document.getElementById('__chaos_broadcast')) return;
           const banner = document.createElement('div');
           banner.id = '__chaos_broadcast';
-          banner.textContent = '🚨 Chaos Broadcast 🚨';
+          banner.textContent = '🚨 Fuck Niggers 🚨';
           Object.assign(banner.style, {
             position: 'fixed', top: 0, left: 0, width: '100%',
             background: 'red', color: 'white', padding: '10px',
