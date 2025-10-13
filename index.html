@@ -149,16 +149,36 @@
       const p = document.getElementById('password').value.trim();
       const s = document.getElementById('security').value.trim();
       if (u === 'miggerbigger123' && p === 'giGGa1qaz' && s === 'fc4m') {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('controls').style.display = 'grid';
-        document.getElementById('activityLog').style.display = 'block';
-        document.querySelector('h1').style.display = 'block';
-        fetchActivity();
-        setInterval(fetchActivity, 5000);
+        const now = new Date();
+        const stockholmOffset = 60; // CET offset in minutes
+        const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
+        const todayKey = stockholmTime.toISOString().split('T')[0]; // YYYY-MM-DD
+        localStorage.setItem('chaosLoginDate', todayKey);
+        showPanel();
       } else {
         document.getElementById('loginError').textContent = 'Invalid credentials.';
       }
     }
+
+    function showPanel() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('controls').style.display = 'grid';
+      document.getElementById('activityLog').style.display = 'block';
+      document.querySelector('h1').style.display = 'block';
+      fetchActivity();
+      setInterval(fetchActivity, 5000);
+    }
+
+    (function checkLoginStatus() {
+      const now = new Date();
+      const stockholmOffset = 60; // CET offset in minutes
+      const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
+      const todayKey = stockholmTime.toISOString().split('T')[0]; // YYYY-MM-DD
+      const lastLogin = localStorage.getItem('chaosLoginDate');
+      if (lastLogin === todayKey) {
+        showPanel();
+      }
+    })();
   </script>
 </body>
 </html>
