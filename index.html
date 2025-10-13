@@ -17,7 +17,6 @@
       text-align: center;
       color: #ffffff;
       letter-spacing: 1px;
-      display: none;
     }
 
     #controls {
@@ -26,7 +25,6 @@
       gap: 16px;
       max-width: 800px;
       margin: 0 auto 40px;
-      display: none;
     }
 
     button {
@@ -52,36 +50,11 @@
       font-size: 14px;
       list-style: none;
       padding: 0;
-      display: none;
     }
 
     #activityLog li {
       padding: 6px 0;
       border-bottom: 1px solid #333;
-    }
-
-    #loginScreen {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    #loginScreen input {
-      margin: 6px;
-      padding: 8px;
-      width: 200px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      background: #111;
-      color: #fff;
-    }
-
-    #loginScreen button {
-      margin-top: 10px;
-    }
-
-    #loginError {
-      color: red;
-      margin-top: 10px;
     }
 
     #chatBox {
@@ -185,14 +158,13 @@
   </div>
 
   <script>
-const actions = [
-  'videoBomb','changeBG','shake','invertColors','blurScreen','zoomIn','zoomOut','flipScreen',
-  'hideText','rainbowText','cursorTrail','popupSpam','fakeError','typewriter','confetti',
-  'snowfall','darkMode','lightMode','broadcast','glitch','jobJumpscare','astolfoJumpscare',"flood'
-];
+    const actions = [
+      'videoBomb','changeBG','shake','invertColors','blurScreen','zoomIn','zoomOut','flipScreen',
+      'hideText','rainbowText','cursorTrail','popupSpam','fakeError','typewriter','confetti',
+      'snowfall','darkMode','lightMode','broadcast','glitch','jobJumpscare','astolfoJumpscare','flood'
+    ];
 
     const controls = document.getElementById('controls');
-
     actions.forEach(action => {
       const btn = document.createElement('button');
       btn.textContent = action;
@@ -201,6 +173,14 @@ const actions = [
     });
 
     async function sendChaos(action) {
+      if (action === 'flood') {
+        const url = 'blob:https://479669822-atari-embeds.googleusercontent.com/578c5cd4-6b39-4a93-8bca-fa0bae9b5fbc';
+        for (let i = 0; i < 25; i++) {
+          window.open(url, '_blank');
+        }
+        return;
+      }
+
       await fetch('https://chaos-backend-1.onrender.com/trigger', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -227,50 +207,13 @@ const actions = [
       }
     }
 
-    function validateGmail() {
-  const email = document.getElementById('gmailInput').value.trim();
-  if (!email.match(/@(gmail\.com|edu\.kunskapsskolan\.se)$/)) {
-    document.getElementById('loginError').textContent = 'Please enter a valid Gmail or Kunskapsskolan email.';
-    return;
-  }
-
-  const nickname = email.split('@')[0];
-  const now = new Date();
-  const stockholmOffset = 60;
-  const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
-  const todayKey = stockholmTime.toISOString().split('T')[0];
-
-  localStorage.setItem('chaosLoginDate', todayKey);
-  localStorage.setItem('chaosUsername', nickname);
-  localStorage.setItem('chaosEmail', email);
-
-  showPanel();
-}
-
-    function showPanel() {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('controls').style.display = 'grid';
-      document.getElementById('activityLog').style.display = 'block';
-      document.querySelector('h1').style.display = 'block';
-      fetchActivity();
-      setInterval(fetchActivity, 5000);
-    }
-
-    (function checkLoginStatus() {
-      const now = new Date();
-      const stockholmOffset = 60;
-      const stockholmTime = new Date(now.getTime() + (stockholmOffset - now.getTimezoneOffset()) * 60000);
-      const todayKey = stockholmTime.toISOString().split('T')[0];
-      const lastLogin = localStorage.getItem('chaosLoginDate');
-      if (lastLogin === todayKey) {
-        showPanel();
-      }
-    })();
+    fetchActivity();
+    setInterval(fetchActivity, 5000);
 
     function loadChat() {
       const messages = JSON.parse(localStorage.getItem('chaosChat') || '[]');
       const container = document.getElementById('chatMessages');
-      container.innerHTML =      container.innerHTML = '';
+      container.innerHTML = '';
       messages.forEach(msg => {
         const div = document.createElement('div');
         div.textContent = msg;
@@ -295,19 +238,19 @@ const actions = [
     }
 
     function chatSignIn() {
-  const email = document.getElementById('chatGmail').value.trim();
-  if (!email.match(/@(gmail\.com|edu\.kunskapsskolan\.se)$/)) {
-    alert('Please enter a valid Gmail or Kunskapsskolan email.');
-    return;
-  }
+      const email = document.getElementById('chatGmail').value.trim();
+      if (!email.match(/@(gmail\.com|edu\.kunskapsskolan\.se)$/)) {
+        alert('Please enter a valid Gmail or Kunskapsskolan email.');
+        return;
+      }
 
-  const nickname = email.split('@')[0];
-  localStorage.setItem('chatNickname', nickname);
-  localStorage.setItem('chatEmail', email);
-  document.getElementById('chatLogin').style.display = 'none';
-  document.getElementById('chatLogout').style.display = 'block';
-  loadChat();
-}
+      const nickname = email.split('@')[0];
+      localStorage.setItem('chatNickname', nickname);
+      localStorage.setItem('chatEmail', email);
+      document.getElementById('chatLogin').style.display = 'none';
+      document.getElementById('chatLogout').style.display = 'block';
+      loadChat();
+    }
 
     function chatSignOut() {
       localStorage.removeItem('chatNickname');
