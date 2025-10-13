@@ -24,7 +24,7 @@
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 16px;
       max-width: 800px;
-      margin: 0 auto;
+      margin: 0 auto 40px;
     }
 
     button {
@@ -43,11 +43,27 @@
       color: #000000;
       box-shadow: 0 0 10px #ffffff88;
     }
+
+    #activityLog {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 14px;
+      list-style: none;
+      padding: 0;
+    }
+
+    #activityLog li {
+      padding: 6px 0;
+      border-bottom: 1px solid #333;
+    }
   </style>
 </head>
 <body>
   <h1>Chaos Control Panel</h1>
   <div id="controls"></div>
+
+  <h2 style="text-align:center;margin-top:60px;">Live Chaos Activity</h2>
+  <ul id="activityLog"></ul>
 
   <script>
     const actions = [
@@ -72,6 +88,26 @@
         body: JSON.stringify({ action })
       });
     }
+
+    async function fetchActivity() {
+      try {
+        const res = await fetch('https://chaos-backend-1.onrender.com/activity');
+        const data = await res.json();
+        const log = document.getElementById('activityLog');
+        log.innerHTML = '';
+        data.slice().reverse().forEach(entry => {
+          const li = document.createElement('li');
+          const time = new Date(entry.timestamp).toLocaleTimeString();
+          li.textContent = `Chaos listener activated at ${time}`;
+          log.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Failed to fetch activity:', err);
+      }
+    }
+
+    fetchActivity();
+    setInterval(fetchActivity, 5000); // refresh every 5 seconds
   </script>
 </body>
 </html>
