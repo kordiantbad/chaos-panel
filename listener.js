@@ -127,9 +127,8 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
   img.style.left = '0';
   img.style.width = '100vw';
   img.style.height = '100vh';
-  img.style.objectFit = 'cover';
+  img.style.objectFit = 'cover'; // ensures full image is shown
   img.style.zIndex = '999999';
-  img.style.animation = 'fadeIn 0.3s ease';
   img.id = '__chaos_jobjumpscare';
   document.body.appendChild(img);
 
@@ -152,9 +151,8 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
   img.style.left = '0';
   img.style.width = '100vw';
   img.style.height = '100vh';
-  img.style.objectFit = 'cover';
+  img.style.objectFit = 'cover'; // ensures full image is shown
   img.style.zIndex = '999999';
-  img.style.animation = 'fadeIn 0.3s ease';
   img.id = '__chaos_astolfojumpscare';
   document.body.appendChild(img);
 
