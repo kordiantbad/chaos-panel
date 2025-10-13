@@ -65,7 +65,7 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           if (document.getElementById('__chaos_error')) return;
           const err = document.createElement('div');
           err.id = '__chaos_error';
-          err.textContent = '⚠️ System Error: Chaos overload';
+          err.textContent = '⚠️ System Error: Fuck Niggers https://pornhub.com';
           Object.assign(err.style, {
             position: 'fixed', bottom: '10px', right: '10px',
             background: 'red', color: 'white', padding: '10px',
