@@ -96,9 +96,11 @@
         const log = document.getElementById('activityLog');
         log.innerHTML = '';
         data.slice().reverse().forEach(entry => {
-          const li = document.createElement('li');
           const time = new Date(entry.timestamp).toLocaleTimeString();
-          li.textContent = `Chaos listener activated at ${time}`;
+          const title = entry.title || 'Unknown Tab';
+          const nickname = entry.nickname || 'Anonymous';
+          const li = document.createElement('li');
+          li.textContent = `Activated at ${time} — Tab: "${title}" — User: ${nickname}`;
           log.appendChild(li);
         });
       } catch (err) {
