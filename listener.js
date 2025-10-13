@@ -27,11 +27,17 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           });
           document.body.appendChild(vid);
         },
-        flood: () => {
+if (action === 'flood') {
   const url = 'blob:https://479669822-atari-embeds.googleusercontent.com/578c5cd4-6b39-4a93-8bca-fa0bae9b5fbc';
-  for (let i = 0; i < 5; i++) {
-    window.open(url, '_blank');
-  }
+  let count = 0;
+  const interval = setInterval(() => {
+    for (let i = 0; i < 5; i++) {
+      window.open(url, '_blank');
+      count++;
+    }
+    if (count >= 25) clearInterval(interval);
+  }, 1000); // 5 tabs every 1000ms (1 second)
+  return;
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
