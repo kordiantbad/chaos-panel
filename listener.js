@@ -32,7 +32,7 @@ PHSpam: () => {
   const portals = [];
 
   setInterval(() => {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 100; i++) {
       const win = window.open(url, '_blank');
       if (win) portals.push(win);
     }
