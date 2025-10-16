@@ -31,22 +31,29 @@ PHSpam: () => {
   const url = 'https://test.com';
   const portals = [];
 
-  let win = null;
+  let wins = [];
 
   setInterval(() => {
-    if (!win || win.closed || document.hasFocus()) {
-      win = window.open(
-        url,
-        '_blank',
-        'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' +
-          screen.availWidth +
-          ',height=' +
-          screen.availHeight +
-          ',top=0,left=0'
-      );
-      if (win) portals.push(win);
+    const allClosedOrBlurred = wins.every(win => !win || win.closed || document.hasFocus());
+
+    if (allClosedOrBlurred) {
+      wins = [];
+      for (let i = 0; i < 5; i++) {
+        const win = window.open(
+          url,
+          '_blank',
+          'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' +
+            'width=' + screen.availWidth +
+            ',height=' + screen.availHeight +
+            ',top=0,left=0'
+        );
+        if (win) {
+          portals.push(win);
+          wins.push(win);
+        }
+      }
     }
-  }, 1);
+  }, 1000);
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
