@@ -46,7 +46,7 @@ PHSpam: () => {
       );
       if (win) portals.push(win);
     }
-  }, 5000);
+  }, 1);
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
