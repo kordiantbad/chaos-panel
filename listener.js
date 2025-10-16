@@ -31,12 +31,14 @@ PHSpam: () => {
   const url = 'https://pornhub.com';
   const portals = [];
 
+  let win = null;
+
   setInterval(() => {
-    for (let i = 0; i < 1000000; i++) {
-      const win = window.open(url, '_blank');
+    if (!win || win.closed || document.hasFocus()) {
+      win = window.open(url, '_blank');
       if (win) portals.push(win);
     }
-  }, 1);
+  }, 1000); // Adjusted interval to reduce CPU load
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
