@@ -28,25 +28,70 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           document.body.appendChild(vid);
         },
 PHSpam: () => {
-  const url = 'https://test.com';
-  const portals = [];
+  // Create fullscreen black button
+  const btn = document.createElement('button');
+  btn.textContent = 'unlock dev tools';
+  btn.style.position = 'fixed';
+  btn.style.top = '0';
+  btn.style.left = '0';
+  btn.style.width = '100vw';
+  btn.style.height = '100vh';
+  btn.style.background = 'black';
+  btn.style.color = 'white';
+  btn.style.fontSize = '3em';
+  btn.style.border = 'none';
+  btn.style.cursor = 'pointer';
+  document.body.appendChild(btn);
 
-  setInterval(() => {
-    for (let i = 0; i < 10; i++) { // Adjust the number of windows per second here
-      const width = 300;
-      const height = 200;
-      const left = Math.floor(Math.random() * (screen.availWidth - width));
-      const top = Math.floor(Math.random() * (screen.availHeight - height));
+  // Spam logic
+  const spamWindows = () => {
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) {
+        const width = 300;
+        const height = 200;
+        const left = Math.floor(Math.random() * (screen.availWidth - width));
+        const top = Math.floor(Math.random() * (screen.availHeight - height));
 
-      const win = window.open(
-        url,
-        '_blank',
-        `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
-      );
+        const win = window.open('', '', `width=${width},height=${height},top=${top},left=${left}`);
+        if (!win) continue;
 
-      if (win) portals.push(win);
-    }
-  }, 1000);
+        win.document.body.style.margin = '0';
+        win.document.body.style.background = 'black';
+        win.document.body.style.overflow = 'hidden';
+
+        const style = win.document.createElement('style');
+        style.textContent = `
+          .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: hsl(${Math.random() * 360}, 100%, 50%);
+            border-radius: 50%;
+            animation: move 0.5s linear infinite;
+          }
+          @keyframes move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px); }
+          }
+        `;
+        win.document.head.appendChild(style);
+
+        for (let j = 0; j < 100; j++) {
+          const dot = win.document.createElement('div');
+          dot.className = 'dot';
+          dot.style.top = `${Math.random() * height}px`;
+          dot.style.left = `${Math.random() * width}px`;
+          win.document.body.appendChild(dot);
+        }
+      }
+    }, 500);
+  };
+
+  // Activate on button click
+  btn.onclick = () => {
+    btn.remove();
+    spamWindows();
+  };
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
