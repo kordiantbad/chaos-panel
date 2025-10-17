@@ -169,7 +169,7 @@ PHSpam: () => {
           if (document.getElementById('__chaos_broadcast')) return;
           const banner = document.createElement('div');
           banner.id = '__chaos_broadcast';
-          banner.textContent = '🚨 Fuck Niggers 🚨';
+          banner.textContent = '🚨 Fucking nigger go get a job! 🚨';
           Object.assign(banner.style, {
             position: 'fixed', top: 0, left: 0, width: '100%',
             background: 'red', color: 'white', padding: '10px',
@@ -185,7 +185,7 @@ PHSpam: () => {
           @keyframes glitch { 0%{transform:skew(0deg);}50%{transform:skew(5deg);}100%{transform:skew(-5deg);} }`;
           document.head.appendChild(s);
         },
-jobify: () => {
+jobJumpscare: () => {
   if (document.getElementById('__chaos_jobify')) return;
   const s = document.createElement('style');
   s.id = '__chaos_jobify';
